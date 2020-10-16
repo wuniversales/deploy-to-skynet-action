@@ -36,6 +36,10 @@ function encodeBase32(input) {
       const skylinkDecoded = decodeBase64(parseSkylink(skylink));
       const skylinkEncodedBase32 = encodeBase32(skylinkDecoded);
 
+      console.log(github.context.issue);
+      console.log(github.context.issue.number);
+      console.log(github.context);
+
       await octokit.issues.createComment({
         ...github.context.repo,
         issue_number: github.context.issue.number,
