@@ -36,15 +36,15 @@ function encodeBase32(input) {
       const skylinkDecoded = decodeBase64(parseSkylink(skylink));
       const skylinkEncodedBase32 = encodeBase32(skylinkDecoded);
 
-      console.log(github.context.issue);
-      console.log(github.context.issue.number);
-      console.log(github.context);
-
-      await octokit.issues.createComment({
-        ...github.context.repo,
-        issue_number: github.context.issue.number,
-        body: `Deployed to https://${skylinkEncodedBase32}.siasky.net<br>Skylink: \`${skylink}\``,
-      });
+      try {
+        await octokit.issues.createComment({
+          ...github.context.repo,
+          issue_number: github.context.issue.number,
+          body: `Deployed to https://${skylinkEncodedBase32}.siasky.net<br>Skylink: \`${skylink}\``,
+        });
+      } catch (error) {
+        console.log(`Failed to create comment: ${error.message}`);
+      }
     }
   } catch (error) {
     core.setFailed(error.message);
