@@ -48,14 +48,42 @@ function prepareUploadOptions() {
 }
 
 function generateVersionFile() {
+  // Get the file path for the version file.
   const filePath = path.join(uploadDir, versionFileName);
 
+  // Don't override any existing version file.
   if (fs.existsSync(filePath)) {
     return;
   }
 
-  const json = { foo: "bar" };
+  let version;
+  try {
+    version = require("./package.json").version;
+  } catch (e) {
+    version = null;
+  }
+
+  // Construct the JSON.
+  const json = {
+    // The "JSON version" schema version.
+    _v: 2,
+    // The skapp version.
+    version,
+    // TODO: Enable customizing?
+    mode: "production",
+    branch: github.context.ref,
+    commit: github.context.sha,
+    job: github.context.job,
+
+    // Leave these empty since this action will never pick up any locally-made
+    // changes or links. However, keeping these fields keeps compatibility with
+    // the existing JSON version schema.
+    local_changes: [],
+    local_links: [],
+  };
   const fileData = JSON.stringify(json);
+
+  // Write the version file.
   fs.writeFileSync(filePath, fileData);
 }
 
