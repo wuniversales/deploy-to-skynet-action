@@ -1,9 +1,16 @@
+const fs = require("fs");
+const path = require("path");
+
 const core = require("@actions/core");
 const github = require("@actions/github");
 const {
   SkynetClient,
   genKeyPairFromSeed,
 } = require("@skynetlabs/skynet-nodejs");
+
+// TODO: Make this customizable?
+const versionFileName = "version.json";
+const uploadDir = core.getInput("upload-dir");
 
 function outputAxiosErrorMessage(error) {
   if (error.response) {
@@ -40,12 +47,27 @@ function prepareUploadOptions() {
   return options;
 }
 
+function generateVersionFile() {
+  const filePath = path.join(uploadDir, versionFileName);
+
+  if (fs.existsSync(filePath)) {
+    return;
+  }
+
+  const json = { foo: "bar" };
+  const fileData = JSON.stringify(json);
+  fs.writeFileSync(filePath, fileData);
+}
+
 (async () => {
   try {
+    // Generate the version file.
+    generateVersionFile();
+
     // upload to skynet
     const skynetClient = new SkynetClient(core.getInput("portal-url"));
     const skylink = await skynetClient.uploadDirectory(
-      core.getInput("upload-dir"),
+      uploadDir,
       prepareUploadOptions()
     );
 
