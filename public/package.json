@@ -1,0 +1,12 @@
+{
+  "name": "www project",
+  "version": "1.0.0",
+  "description": "www redirect to top level.",
+  "main": "index.html",
+  "repository": {
+    "url": "https://github.com/wuniversales/deploy-to-skynet-action",
+    "type": "git"
+  },
+  "author": "wuniversales",
+  "license": "MIT"
+}
