@@ -19,7 +19,7 @@ jobs:
         run: yarn
 
       - name: Build webapp
-        run: yarn build
+        run: yarn public
 
       - name: Deploy to Skynet
         uses: SkynetLabs/deploy-to-skynet-action@v2
