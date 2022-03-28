@@ -1,7 +1,0 @@
-{
-    "name": "mypackage",
-    "version": "0.1.0",
-    "scripts": {
-       "build": "webpack --config webpack.dev.js"
-    }
-}
