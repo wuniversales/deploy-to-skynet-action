@@ -21,5 +21,8 @@
     "@actions/core": "1.5.0",
     "@actions/github": "5.0.0",
     "@skynetlabs/skynet-nodejs": "^2.4.1"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.dev.js"
   }
 }
